@@ -1,5 +1,6 @@
 # encoding: utf-8
 require "logstash/codecs/base"
+require "logstash/codecs/line"
 require "logstash/namespace"
 
 # This  codec will append a string to the message field
@@ -23,11 +24,14 @@ class LogStash::Codecs::MultiEof < LogStash::Codecs::Base
   config_name "multi_eof"
 
   # Append a string to the message
-  config :message, :validate => :string, :default => "ok"
   config :append, :validate => :string, :default => ', Hello World!'
   config :pattern, :validate => :string, :required => true, :default => "/.*./gm"
   config :what, :validate => ["previous", "next"], :required => true, :default => "previous"
   config :negate, :validate => :boolean, :default => true
+
+  def test
+    "I need scissors. 61!"
+  end
 
   def register
     @lines = LogStash::Codecs::Line.new
